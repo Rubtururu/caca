@@ -3,37 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStakingBNB</title>
+    <title>SmartStakingBNB - Plataforma de Staking</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>SmartStakingBNB</h1>
-        <div id="user-stats">
-            <h2>Estadísticas del Usuario</h2>
-            <p id="user-share">Tu participación: 0%</p>
-            <p id="user-daily-dividend">Dividendo estimado diario: 0 BNB</p>
-            <p id="time-until-next">Tiempo hasta la siguiente distribución: 0 segundos</p>
-            <p id="pending-rewards">Recompensas pendientes: 0 BNB</p>
-        </div>
-        <div id="staking-actions">
-            <h2>Acciones</h2>
-            <input type="number" id="stake-amount" placeholder="Cantidad a apostar en BNB" />
-            <button id="stake-btn">Hacer Stake</button>
-            <button id="withdraw-stake-btn">Retirar Stake</button>
-            <button id="withdraw-rewards-btn">Retirar Recompensas</button>
-        </div>
-        <div id="global-stats">
-            <h2>Estadísticas Globales</h2>
-            <p id="total-staked">Total apostado: 0 BNB</p>
-            <p id="total-treasury">Tesorería total: 0 BNB</p>
-            <p id="total-daily-dividend">Dividendos diarios totales: 0 BNB</p>
-        </div>
+    <div class="main-container">
+        <header>
+            <h1>🌐 SmartStakingBNB</h1>
+            <button id="connect-wallet">Conectar Wallet 🔗</button>
+        </header>
+
+        <section class="stats-container">
+            <div class="card">
+                <h2>📊 Estadísticas Globales</h2>
+                <p id="total-staked">Total Apostado: <span>0 BNB</span></p>
+                <p id="total-treasury">Tesorería Total: <span>0 BNB</span></p>
+                <p id="total-daily-dividend">Dividendos Diarios: <span>0 BNB</span></p>
+            </div>
+
+            <div class="card">
+                <h2>👤 Tus Estadísticas</h2>
+                <p id="user-share">Tu Participación: <span>0%</span></p>
+                <p id="user-daily-dividend">Dividendos Estimados: <span>0 BNB</span></p>
+                <p id="time-until-next">Próxima Distribución: <span>0s</span></p>
+                <p id="pending-rewards">Recompensas Pendientes: <span>0 BNB</span></p>
+            </div>
+        </section>
+
+        <section class="actions-container">
+            <div class="card">
+                <h2>⚡ Acciones de Staking</h2>
+                <input type="number" id="stake-amount" placeholder="Cantidad en BNB" />
+                <button id="stake-btn">💰 Hacer Stake</button>
+                <button id="withdraw-stake-btn">🏦 Retirar Stake</button>
+                <button id="withdraw-rewards-btn">💸 Retirar Recompensas</button>
+            </div>
+        </section>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
-
