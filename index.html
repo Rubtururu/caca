@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStakingBNB</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Smart Staking BNB</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -14,31 +14,48 @@
         </header>
 
         <section class="stats">
-            <h2>Estadísticas Globales</h2>
-            <div id="total-staked">Total Staked: 0 BNB</div>
-            <div id="total-treasury">Total Treasury: 0 BNB</div>
-            <div id="total-daily-dividend">Total Daily Dividend: 0 BNB</div>
-            <div id="last-global-update">Última Actualización Global: -</div>
+            <div class="stat-box">
+                <p id="total-staked">Total Staked: 0 BNB</p>
+            </div>
+            <div class="stat-box">
+                <p id="total-treasury">Total Treasury: 0 BNB</p>
+            </div>
+            <div class="stat-box">
+                <p id="total-daily-dividend">Total Daily Dividend: 0 BNB</p>
+            </div>
+            <div class="stat-box">
+                <p id="last-global-update">Última Actualización: N/A</p>
+            </div>
         </section>
 
         <section class="user-stats">
             <h2>Estadísticas del Usuario</h2>
-            <div id="user-staked">Stake del Usuario: 0 BNB</div>
-            <div id="user-share">Share del Usuario: 0%</div>
-            <div id="user-daily-dividend">Daily Dividend Estimado: 0 BNB</div>
-            <div id="pending-rewards">Pending Rewards: 0 BNB</div>
+            <div class="stat-box">
+                <p id="user-staked">Stake del Usuario: 0 BNB</p>
+            </div>
+            <div class="stat-box">
+                <p id="user-share">Share del Usuario: 0%</p>
+            </div>
+            <div class="stat-box">
+                <p id="user-daily-dividend">Daily Dividend Estimado: 0 BNB</p>
+            </div>
+            <div class="stat-box">
+                <p id="pending-rewards">Pending Rewards: 0 BNB</p>
+            </div>
         </section>
 
         <section class="actions">
             <h2>Acciones</h2>
-            <input type="text" id="stake-amount" placeholder="Cantidad a stakear (BNB)">
-            <button id="stake-btn">Hacer Stake</button>
+            <div class="input-group">
+                <input type="number" id="stake-amount" placeholder="Cantidad de BNB a Stakear" min="0.01" step="0.01">
+                <button id="stake-btn">Stake</button>
+            </div>
             <button id="withdraw-stake-btn">Retirar Stake</button>
             <button id="withdraw-rewards-btn">Retirar Recompensas</button>
         </section>
 
         <section class="countdown">
-            <h2>Próximo Pago de Dividendos:</h2>
+            <h2>Cuenta Atrás para el Próximo Pago</h2>
             <div id="countdown-timer">
                 <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
             </div>
@@ -49,6 +66,7 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
