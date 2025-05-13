@@ -9,26 +9,24 @@
 </head>
 <body>
   <div class="container">
-    <h1>Smart Staking BNB</h1>
-
-    <div class="wallet-section">
-      <button id="connectWallet">Connect Wallet</button>
-      <p id="walletAddress"></p>
-    </div>
+    <h1>💰 Smart Staking BNB</h1>
+    
+    <button id="connectWallet">🔗 Connect Wallet</button>
+    <p id="walletAddress">Wallet not connected</p>
 
     <div class="stats">
-      <div class="card"><h3>Total Staked</h3><p id="totalStaked"></p></div>
-      <div class="card"><h3>Total Treasury</h3><p id="totalTreasury"></p></div>
-      <div class="card"><h3>Pending Rewards</h3><p id="pendingRewards"></p></div>
-      <div class="card"><h3>Daily Dividend</h3><p id="dailyDividend"></p></div>
-      <div class="card"><h3>Next Payout In</h3><p id="nextPayout"></p></div>
+      <div class="card"><h3>Total Staked</h3><p id="totalStaked">--</p></div>
+      <div class="card"><h3>Total Treasury</h3><p id="totalTreasury">--</p></div>
+      <div class="card"><h3>Pending Rewards</h3><p id="pendingRewards">--</p></div>
+      <div class="card"><h3>Daily Dividend</h3><p id="dailyDividend">--</p></div>
+      <div class="card"><h3>Next Payout</h3><p id="nextPayout">--</p></div>
     </div>
 
     <div class="actions">
-      <input type="number" id="stakeAmount" placeholder="Amount in BNB"/>
-      <button id="stakeBtn">Stake</button>
-      <button id="withdrawStakeBtn">Withdraw Stake</button>
-      <button id="withdrawRewardsBtn">Withdraw Rewards</button>
+      <input type="number" id="stakeAmount" placeholder="Amount in BNB" />
+      <button onclick="stake()">📥 Stake</button>
+      <button onclick="withdrawStake()">📤 Withdraw Stake</button>
+      <button onclick="withdrawRewards()">💸 Claim Rewards</button>
     </div>
   </div>
 
