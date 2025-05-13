@@ -23,44 +23,53 @@ const chart = new Chart(ctx, {
 });
 
 connectWalletButton.addEventListener('click', async () => {
-  if (window.ethereum) {
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    signer = provider.getSigner();
-    account = await signer.getAddress();
-    document.getElementById('accountAddress').innerText = account;
-    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-    updateDashboard();
+  if (typeof window.ethereum !== 'undefined') {
+    try {
+      // Crear un proveedor Web3Provider
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);  // Solicitar acceso a las cuentas
+      signer = provider.getSigner();
+      account = await signer.getAddress();
+      document.getElementById('accountAddress').innerText = account;
+      contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+      updateDashboard();  // Actualiza la interfaz después de conectar
+    } catch (error) {
+      alert('Error al conectar con MetaMask: ' + error.message);
+    }
   } else {
-    alert('MetaMask no está instalada');
+    alert('Por favor, instala MetaMask o habilítalo en tu navegador.');
   }
 });
 
 const updateDashboard = async () => {
-  const totalStaked = await contract.totalStaked();
-  const totalTreasury = await contract.totalTreasury();
-  const pendingRewards = await contract.getPendingRewards(account);
-  const nextDistribution = await contract.getTimeUntilNextDistribution(account);
-  const totalDailyDividend = await contract.getTotalDailyDividend();
-  const userShare = await contract.getUserShare(account);
-  const userDailyEstimate = await contract.getUserDailyDividendEstimate(account);
+  try {
+    const totalStaked = await contract.totalStaked();
+    const totalTreasury = await contract.totalTreasury();
+    const pendingRewards = await contract.getPendingRewards(account);
+    const nextDistribution = await contract.getTimeUntilNextDistribution(account);
+    const totalDailyDividend = await contract.getTotalDailyDividend();
+    const userShare = await contract.getUserShare(account);
+    const userDailyEstimate = await contract.getUserDailyDividendEstimate(account);
 
-  document.getElementById('totalStaked').innerText = ethers.utils.formatEther(totalStaked);
-  document.getElementById('totalTreasury').innerText = ethers.utils.formatEther(totalTreasury);
-  document.getElementById('pendingRewards').innerText = ethers.utils.formatEther(pendingRewards);
-  document.getElementById('nextDistribution').innerText = `${Math.floor(nextDistribution / 60)}m ${nextDistribution % 60}s`;
-  document.getElementById('totalDailyDividend').innerText = ethers.utils.formatEther(totalDailyDividend);
-  document.getElementById('userShare').innerText = `${(userShare / 1e18 * 100).toFixed(2)}%`;
-  document.getElementById('userDailyEstimate').innerText = ethers.utils.formatEther(userDailyEstimate);
+    document.getElementById('totalStaked').innerText = ethers.utils.formatEther(totalStaked);
+    document.getElementById('totalTreasury').innerText = ethers.utils.formatEther(totalTreasury);
+    document.getElementById('pendingRewards').innerText = ethers.utils.formatEther(pendingRewards);
+    document.getElementById('nextDistribution').innerText = `${Math.floor(nextDistribution / 60)}m ${nextDistribution % 60}s`;
+    document.getElementById('totalDailyDividend').innerText = ethers.utils.formatEther(totalDailyDividend);
+    document.getElementById('userShare').innerText = `${(userShare / 1e18 * 100).toFixed(2)}%`;
+    document.getElementById('userDailyEstimate').innerText = ethers.utils.formatEther(userDailyEstimate);
 
-  // Actualización del gráfico
-  chart.data.labels.push(new Date().toLocaleTimeString());
-  chart.data.datasets[0].data.push(parseFloat(ethers.utils.formatEther(totalStaked)));
-  if (chart.data.labels.length > 10) {
-    chart.data.labels.shift();
-    chart.data.datasets[0].data.shift();
+    // Actualización del gráfico
+    chart.data.labels.push(new Date().toLocaleTimeString());
+    chart.data.datasets[0].data.push(parseFloat(ethers.utils.formatEther(totalStaked)));
+    if (chart.data.labels.length > 10) {
+      chart.data.labels.shift();
+      chart.data.datasets[0].data.shift();
+    }
+    chart.update();
+  } catch (error) {
+    alert('Error al actualizar el dashboard: ' + error.message);
   }
-  chart.update();
 };
 
 stakeButton.addEventListener('click', async () => {
