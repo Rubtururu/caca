@@ -84,3 +84,14 @@ withdrawStakeButton.addEventListener('click', async () => {
   }
 });
 
+withdrawRewardsButton.addEventListener('click', async () => {
+  try {
+    await contract.withdrawRewards();
+    alert('Recompensas retiradas correctamente.');
+    updateDashboard();
+  } catch (error) {
+    alert('Error al retirar recompensas: ' + error.message);
+  }
+});
+
+setInterval(updateDashboard, 60000); // Actualización cada minuto
