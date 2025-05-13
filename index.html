@@ -3,44 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Staking BNB</title>
+    <title>SmartStakingBNB</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Smart Staking BNB</h1>
-        <button id="connectWallet" class="btn">Conectar MetaMask</button>
-        <p id="accountAddress"></p>
-
-        <div class="stats">
-            <div class="stat-item">
-                <p>Total Staked:</p>
-                <p id="totalStaked">0</p>
-            </div>
-            <div class="stat-item">
-                <p>Total Treasury:</p>
-                <p id="totalTreasury">0</p>
-            </div>
-            <div class="stat-item">
-                <p>Pending Rewards:</p>
-                <p id="pendingRewards">0</p>
-            </div>
-            <div class="stat-item">
-                <p>Next Distribution:</p>
-                <p id="nextDistribution">0</p>
-            </div>
+        <h1>SmartStakingBNB</h1>
+        <div id="user-stats">
+            <h2>Estadísticas del Usuario</h2>
+            <p id="user-share">Tu participación: 0%</p>
+            <p id="user-daily-dividend">Dividendo estimado diario: 0 BNB</p>
+            <p id="time-until-next">Tiempo hasta la siguiente distribución: 0 segundos</p>
+            <p id="pending-rewards">Recompensas pendientes: 0 BNB</p>
         </div>
-
-        <div class="actions">
-            <input type="number" id="stakeAmount" placeholder="Cantidad para stake" />
-            <button id="stakeButton" class="btn">Stake</button>
-            <button id="withdrawStake" class="btn">Retirar Stake</button>
-            <button id="withdrawRewards" class="btn">Retirar Recompensas</button>
+        <div id="staking-actions">
+            <h2>Acciones</h2>
+            <input type="number" id="stake-amount" placeholder="Cantidad a apostar en BNB" />
+            <button id="stake-btn">Hacer Stake</button>
+            <button id="withdraw-stake-btn">Retirar Stake</button>
+            <button id="withdraw-rewards-btn">Retirar Recompensas</button>
+        </div>
+        <div id="global-stats">
+            <h2>Estadísticas Globales</h2>
+            <p id="total-staked">Total apostado: 0 BNB</p>
+            <p id="total-treasury">Tesorería total: 0 BNB</p>
+            <p id="total-daily-dividend">Dividendos diarios totales: 0 BNB</p>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.0.0/dist/ethers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
+
 
