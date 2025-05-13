@@ -10,38 +10,48 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Smart Staking BNB Dashboard</h1>
-            <button id="connectWallet">🔗 Conectar Wallet</button>
-            <p id="accountAddress">No conectado</p>
-        </header>
+        <h1>Smart Staking BNB Dashboard</h1>
+        <div class="address" id="accountAddress">Conecta tu wallet para ver la dirección</div>
 
-        <div class="statistics">
-            <div class="stat-card">
+        <div class="stats">
+            <div class="stat-item">
                 <h3>Total Staked</h3>
-                <p id="totalStaked">0 BNB</p>
+                <span id="totalStaked">0</span> BNB
             </div>
-            <div class="stat-card">
+            <div class="stat-item">
                 <h3>Total Treasury</h3>
-                <p id="totalTreasury">0 BNB</p>
+                <span id="totalTreasury">0</span> BNB
             </div>
-            <div class="stat-card">
-                <h3>Recompensas Pendientes</h3>
-                <p id="pendingRewards">0 BNB</p>
+            <div class="stat-item">
+                <h3>Pending Rewards</h3>
+                <span id="pendingRewards">0</span> BNB
             </div>
-            <div class="stat-card">
-                <h3>Próxima Distribución</h3>
-                <p id="nextDistribution">0s</p>
+            <div class="stat-item">
+                <h3>Next Distribution</h3>
+                <span id="nextDistribution">0m 0s</span>
+            </div>
+            <div class="stat-item">
+                <h3>Total Daily Dividend</h3>
+                <span id="totalDailyDividend">0</span> BNB
+            </div>
+            <div class="stat-item">
+                <h3>Your Share</h3>
+                <span id="userShare">0%</span>
+            </div>
+            <div class="stat-item">
+                <h3>Your Daily Estimate</h3>
+                <span id="userDailyEstimate">0</span> BNB
             </div>
         </div>
 
         <canvas id="stakeChart"></canvas>
 
         <div class="actions">
-            <input type="number" id="stakeAmount" placeholder="Cantidad de BNB">
-            <button id="stakeButton">💰 Stake BNB</button>
-            <button id="withdrawStake">🪙 Retirar Stake</button>
-            <button id="withdrawRewards">🏆 Retirar Recompensas</button>
+            <button id="connectWallet" class="btn">Conectar Wallet</button>
+            <input type="number" id="stakeAmount" placeholder="Cantidad (BNB)">
+            <button id="stakeButton" class="btn">Stake</button>
+            <button id="withdrawStake" class="btn">Withdraw Stake</button>
+            <button id="withdrawRewards" class="btn">Withdraw Rewards</button>
         </div>
     </div>
 
