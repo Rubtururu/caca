@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Staking BNB Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Staking BNB</h1>
+
+        <div class="wallet">
+            <button id="connectWallet">Conectar Wallet</button>
+            <p id="accountAddress">No conectado</p>
+        </div>
+
+        <div class="dashboard">
+            <h2>Dashboard</h2>
+            <p>Total Staked: <span id="totalStaked">0</span> BNB</p>
+            <p>Total Treasury: <span id="totalTreasury">0</span> BNB</p>
+            <p>Recompensas Pendientes: <span id="pendingRewards">0</span> BNB</p>
+            <button id="withdrawStake">Retirar Stake</button>
+            <button id="withdrawRewards">Retirar Recompensas</button>
+        </div>
+
+        <div class="stake">
+            <h2>Hacer Stake</h2>
+            <input type="number" id="stakeAmount" placeholder="Cantidad de BNB">
+            <button id="stakeButton">Stake BNB</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
