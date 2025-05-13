@@ -5,27 +5,43 @@ let web3;
 let contract;
 let account;
 
-document.getElementById("connectWallet").addEventListener("click", async () => {
-  if (!window.ethereum) return alert("MetaMask no está instalado");
-
-  try {
+window.addEventListener('load', async () => {
+  if (window.ethereum) {
     web3 = new Web3(window.ethereum);
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-    const accounts = await web3.eth.getAccounts();
-    account = accounts[0];
-    document.getElementById("walletAddress").innerText = `🔓 Connected: ${account}`;
-    contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
-
-    loadStats();
-  } catch (err) {
-    alert("Error al conectar la wallet");
-    console.error(err);
+    document.getElementById("connectWallet").addEventListener("click", connectWallet);
+    document.getElementById("stakeButton").addEventListener("click", stake);
+    document.getElementById("withdrawStakeButton").addEventListener("click", withdrawStake);
+    document.getElementById("withdrawRewardsButton").addEventListener("click", withdrawRewards);
+  } else {
+    alert("MetaMask not found!");
   }
 });
 
-async function loadStats() {
+async function connectWallet() {
   try {
-    const [totalStaked, treasury, rewards, daily, next] = await Promise.all([
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+    const accounts = await web3.eth.getAccounts();
+    account = accounts[0];
+    document.getElementById("walletAddress").innerText = `Connected: ${account}`;
+    contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
+    updateStats();
+    setInterval(updateStats, 15000);
+  } catch (err) {
+    console.error("Wallet connection failed", err);
+  }
+}
+
+async function updateStats() {
+  if (!contract || !account) return;
+
+  try {
+    const [
+      totalStaked,
+      totalTreasury,
+      pendingRewards,
+      dailyEstimate,
+      nextPayout
+    ] = await Promise.all([
       contract.methods.totalStaked().call(),
       contract.methods.totalTreasury().call(),
       contract.methods.getPendingRewards(account).call(),
@@ -33,52 +49,33 @@ async function loadStats() {
       contract.methods.getTimeUntilNextDistribution(account).call()
     ]);
 
-    document.getElementById("totalStaked").innerText = `${web3.utils.fromWei(totalStaked)} BNB`;
-    document.getElementById("totalTreasury").innerText = `${web3.utils.fromWei(treasury)} BNB`;
-    document.getElementById("pendingRewards").innerText = `${web3.utils.fromWei(rewards)} BNB`;
-    document.getElementById("dailyDividend").innerText = `${web3.utils.fromWei(daily)} BNB`;
+    document.getElementById("totalStaked").innerText = parseFloat(web3.utils.fromWei(totalStaked)).toFixed(4) + " BNB";
+    document.getElementById("totalTreasury").innerText = parseFloat(web3.utils.fromWei(totalTreasury)).toFixed(4) + " BNB";
+    document.getElementById("pendingRewards").innerText = parseFloat(web3.utils.fromWei(pendingRewards)).toFixed(4) + " BNB";
+    document.getElementById("dailyEstimate").innerText = parseFloat(web3.utils.fromWei(dailyEstimate)).toFixed(4) + " BNB";
 
-    const minutes = Math.floor(next / 60);
-    const seconds = next % 60;
+    const minutes = Math.floor(nextPayout / 60);
+    const seconds = nextPayout % 60;
     document.getElementById("nextPayout").innerText = `${minutes}m ${seconds}s`;
+
   } catch (err) {
-    console.error("Error al cargar estadísticas:", err);
-    alert("No se pudieron cargar las estadísticas. Revisa la consola.");
+    console.error("Error loading stats:", err);
   }
 }
 
 async function stake() {
   const amount = document.getElementById("stakeAmount").value;
-  if (!amount) return alert("Ingresa una cantidad válida");
-
-  try {
-    await contract.methods.stake().send({
-      from: account,
-      value: web3.utils.toWei(amount, "ether")
-    });
-    loadStats();
-  } catch (err) {
-    alert("Error al hacer stake");
-    console.error(err);
-  }
+  if (!amount || isNaN(amount)) return alert("Enter valid amount");
+  await contract.methods.stake().send({ from: account, value: web3.utils.toWei(amount, "ether") });
+  updateStats();
 }
 
 async function withdrawStake() {
-  try {
-    await contract.methods.withdrawStake().send({ from: account });
-    loadStats();
-  } catch (err) {
-    alert("Error al retirar stake");
-    console.error(err);
-  }
+  await contract.methods.withdrawStake().send({ from: account });
+  updateStats();
 }
 
 async function withdrawRewards() {
-  try {
-    await contract.methods.withdrawRewards().send({ from: account });
-    loadStats();
-  } catch (err) {
-    alert("Error al retirar recompensas");
-    console.error(err);
-  }
+  await contract.methods.withdrawRewards().send({ from: account });
+  updateStats();
 }
