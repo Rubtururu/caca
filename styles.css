@@ -1,0 +1,72 @@
+/* styles.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1e1e2f;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #2b2b3d;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.statistics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: #33334d;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+canvas {
+    margin-bottom: 20px;
+    background-color: #29293d;
+    border-radius: 8px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+input[type='number'] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+}
