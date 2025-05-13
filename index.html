@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Staking BNB</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Smart Staking BNB</h1>
 
-    <div class="wallet-section">
-      <button id="connectWallet">Connect Wallet</button>
-      <p id="walletAddress"></p>
-    </div>
+    <button id="connectWallet">Connect Wallet</button>
+    <p id="walletAddress">Wallet not connected</p>
 
     <div class="stats">
-      <div class="card"><h3>Total Staked</h3><p id="totalStaked">Loading...</p></div>
-      <div class="card"><h3>Total Treasury</h3><p id="totalTreasury">Loading...</p></div>
-      <div class="card"><h3>Pending Rewards</h3><p id="pendingRewards">Loading...</p></div>
-      <div class="card"><h3>Daily Dividend</h3><p id="dailyDividend">Loading...</p></div>
-      <div class="card"><h3>Next Payout In</h3><p id="nextPayout">Loading...</p></div>
+      <div><strong>Total Staked:</strong> <span id="totalStaked">Loading...</span></div>
+      <div><strong>Total Treasury:</strong> <span id="totalTreasury">Loading...</span></div>
+      <div><strong>Pending Rewards:</strong> <span id="pendingRewards">Loading...</span></div>
+      <div><strong>Daily Dividend:</strong> <span id="dailyDividend">Loading...</span></div>
+      <div><strong>Next Payout In:</strong> <span id="nextPayout">Loading...</span></div>
     </div>
 
     <div class="actions">
-      <input type="number" id="stakeAmount" placeholder="Amount in BNB"/>
+      <input type="number" id="stakeAmount" placeholder="Amount in BNB">
       <button onclick="stake()">Stake</button>
       <button onclick="withdrawStake()">Withdraw Stake</button>
       <button onclick="withdrawRewards()">Withdraw Rewards</button>
