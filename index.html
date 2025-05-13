@@ -3,67 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStakingBNB - Dashboard</title>
+    <title>SmartStakingBNB</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="main-container">
+    <div class="container">
         <header>
-            <h1>SmartStakingBNB Dashboard</h1>
-            <p>Gestiona tu inversión de manera inteligente y segura en la BSC.</p>
+            <h1>Smart Staking BNB</h1>
+            <button id="connect-wallet-btn">Conectar MetaMask</button>
         </header>
 
-        <section class="stats-grid">
-            <div class="card">
-                <h3>Estadísticas Globales</h3>
-                <p>Total Staked: <span id="total-staked">-</span></p>
-                <p>Total en Tesorería: <span id="total-treasury">-</span></p>
-                <p>Dividendos Diarios Totales: <span id="total-daily-dividend">-</span></p>
-                <p>Número de Stakers: <span id="total-stakers">-</span></p>
-                <p>Última Actualización Global: <span id="last-global-update">-</span></p>
-            </div>
-
-            <div class="card">
-                <h3>Tu Información</h3>
-                <p>Participación: <span id="user-share">-</span></p>
-                <p>Staked Actual: <span id="user-staked">-</span></p>
-                <p>Dividendo Estimado Diario: <span id="user-daily-dividend">-</span></p>
-                <p>Recompensas Pendientes: <span id="pending-rewards">-</span></p>
-            </div>
-
-            <div class="card">
-                <h3>Acciones</h3>
-                <input type="number" id="stake-amount" placeholder="Cantidad a Stakear (BNB)" />
-                <button id="stake-btn">Hacer Stake</button>
-                <button id="withdraw-stake-btn">Retirar Stake</button>
-                <button id="withdraw-rewards-btn">Retirar Recompensas</button>
-            </div>
+        <section class="stats">
+            <h2>Estadísticas Globales</h2>
+            <div id="total-staked">Total Staked: 0 BNB</div>
+            <div id="total-treasury">Total Treasury: 0 BNB</div>
+            <div id="total-daily-dividend">Total Daily Dividend: 0 BNB</div>
+            <div id="last-global-update">Última Actualización Global: -</div>
         </section>
 
-        <div id="countdown-timer">
-            <div>
-                <span id="hours">00</span>
-                <p>Horas</p>
-            </div>
-            <div>
-                <span id="minutes">00</span>
-                <p>Minutos</p>
-            </div>
-            <div>
-                <span id="seconds">00</span>
-                <p>Segundos</p>
-            </div>
-        </div>
+        <section class="user-stats">
+            <h2>Estadísticas del Usuario</h2>
+            <div id="user-staked">Stake del Usuario: 0 BNB</div>
+            <div id="user-share">Share del Usuario: 0%</div>
+            <div id="user-daily-dividend">Daily Dividend Estimado: 0 BNB</div>
+            <div id="pending-rewards">Pending Rewards: 0 BNB</div>
+        </section>
 
-        <footer>
-            <p>SmartStakingBNB &copy; 2025 - Todos los derechos reservados.</p>
-        </footer>
+        <section class="actions">
+            <h2>Acciones</h2>
+            <input type="text" id="stake-amount" placeholder="Cantidad a stakear (BNB)">
+            <button id="stake-btn">Hacer Stake</button>
+            <button id="withdraw-stake-btn">Retirar Stake</button>
+            <button id="withdraw-rewards-btn">Retirar Recompensas</button>
+        </section>
+
+        <section class="countdown">
+            <h2>Próximo Pago de Dividendos:</h2>
+            <div id="countdown-timer">
+                <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
+        </section>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
