@@ -1,60 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Staking BNB Interface</title>
+    <title>Smart Staking BNB</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Smart Staking BNB Dashboard</h1>
-        <div class="address" id="accountAddress">Conecta tu wallet para ver la dirección</div>
+        <h1>Smart Staking BNB</h1>
+        <button id="connectWallet" class="btn">Conectar MetaMask</button>
+        <p id="accountAddress"></p>
 
         <div class="stats">
             <div class="stat-item">
-                <h3>Total Staked</h3>
-                <span id="totalStaked">0</span> BNB
+                <p>Total Staked:</p>
+                <p id="totalStaked">0</p>
             </div>
             <div class="stat-item">
-                <h3>Total Treasury</h3>
-                <span id="totalTreasury">0</span> BNB
+                <p>Total Treasury:</p>
+                <p id="totalTreasury">0</p>
             </div>
             <div class="stat-item">
-                <h3>Pending Rewards</h3>
-                <span id="pendingRewards">0</span> BNB
+                <p>Pending Rewards:</p>
+                <p id="pendingRewards">0</p>
             </div>
             <div class="stat-item">
-                <h3>Next Distribution</h3>
-                <span id="nextDistribution">0m 0s</span>
-            </div>
-            <div class="stat-item">
-                <h3>Total Daily Dividend</h3>
-                <span id="totalDailyDividend">0</span> BNB
-            </div>
-            <div class="stat-item">
-                <h3>Your Share</h3>
-                <span id="userShare">0%</span>
-            </div>
-            <div class="stat-item">
-                <h3>Your Daily Estimate</h3>
-                <span id="userDailyEstimate">0</span> BNB
+                <p>Next Distribution:</p>
+                <p id="nextDistribution">0</p>
             </div>
         </div>
 
-        <canvas id="stakeChart"></canvas>
-
         <div class="actions">
-            <button id="connectWallet" class="btn">Conectar Wallet</button>
-            <input type="number" id="stakeAmount" placeholder="Cantidad (BNB)">
+            <input type="number" id="stakeAmount" placeholder="Cantidad para stake" />
             <button id="stakeButton" class="btn">Stake</button>
-            <button id="withdrawStake" class="btn">Withdraw Stake</button>
-            <button id="withdrawRewards" class="btn">Withdraw Rewards</button>
+            <button id="withdrawStake" class="btn">Retirar Stake</button>
+            <button id="withdrawRewards" class="btn">Retirar Recompensas</button>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.0.0/dist/ethers.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
+
