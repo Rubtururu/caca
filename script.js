@@ -10,20 +10,6 @@ const stakeButton = document.getElementById('stakeButton');
 const withdrawStakeButton = document.getElementById('withdrawStake');
 const withdrawRewardsButton = document.getElementById('withdrawRewards');
 
-const ctx = document.getElementById('stakeChart').getContext('2d');
-const chart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [{
-      label: 'Staked Amount (BNB)',
-      data: [],
-      borderColor: '#4CAF50',
-      tension: 0.1
-    }]
-  }
-});
-
 connectWalletButton.addEventListener('click', async () => {
   if (window.ethereum) {
     provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -39,55 +25,18 @@ connectWalletButton.addEventListener('click', async () => {
 });
 
 const updateDashboard = async () => {
-  const totalStaked = await contract.totalStaked();
-  const totalTreasury = await contract.totalTreasury();
-  const pendingRewards = await contract.getPendingRewards(account);
-  const nextDistribution = await contract.getTimeUntilNextDistribution(account);
+  try {
+    const totalStaked = await contract.totalStaked();
+    const totalTreasury = await contract.totalTreasury();
+    const pendingRewards = await contract.getPendingRewards(account);
+    const nextDistribution = await contract.getTimeUntilNextDistribution(account);
 
-  document.getElementById('totalStaked').innerText = ethers.utils.formatEther(totalStaked);
-  document.getElementById('totalTreasury').innerText = ethers.utils.formatEther(totalTreasury);
-  document.getElementById('pendingRewards').innerText = ethers.utils.formatEther(pendingRewards);
-  document.getElementById('nextDistribution').innerText = `${Math.floor(nextDistribution / 60)}m ${nextDistribution % 60}s`;
+    document.getElementById('totalStaked').innerText = ethers.utils.formatEther(totalStaked);
+    document.getElementById('totalTreasury').innerText = ethers.utils.formatEther(totalTreasury);
+    document.getElementById('pendingRewards').innerText = ethers.utils.formatEther(pendingRewards);
+    document.getElementById('nextDistribution').innerText = `${Math.floor(nextDistribution / 60)}m ${nextDistribution % 60}s`;
 
-  // Actualización del gráfico
-  chart.data.labels.push(new Date().toLocaleTimeString());
-  chart.data.datasets[0].data.push(parseFloat(ethers.utils.formatEther(totalStaked)));
-  if (chart.data.labels.length > 10) {
-    chart.data.labels.shift();
-    chart.data.datasets[0].data.shift();
+  } catch (error) {
+    console.error("Error al actualizar el dashboard:", error);
   }
-  chart.update();
 };
-
-stakeButton.addEventListener('click', async () => {
-  const amount = document.getElementById('stakeAmount').value;
-  try {
-    await contract.stake({ value: ethers.utils.parseEther(amount) });
-    alert('Staking completado!');
-    updateDashboard();
-  } catch (error) {
-    alert('Error en el staking: ' + error.message);
-  }
-});
-
-withdrawStakeButton.addEventListener('click', async () => {
-  try {
-    await contract.withdrawStake();
-    alert('Stake retirado correctamente.');
-    updateDashboard();
-  } catch (error) {
-    alert('Error al retirar el stake: ' + error.message);
-  }
-});
-
-withdrawRewardsButton.addEventListener('click', async () => {
-  try {
-    await contract.withdrawRewards();
-    alert('Recompensas retiradas correctamente.');
-    updateDashboard();
-  } catch (error) {
-    alert('Error al retirar recompensas: ' + error.message);
-  }
-});
-
-setInterval(updateDashboard, 60000); // Actualización cada minuto
