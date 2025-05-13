@@ -8,99 +8,72 @@ const stakeButton = document.getElementById('stakeButton');
 const withdrawStakeButton = document.getElementById('withdrawStake');
 const withdrawRewardsButton = document.getElementById('withdrawRewards');
 
-const ctx = document.getElementById('stakeChart').getContext('2d');
-const chart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [{
-      label: 'Staked Amount (BNB)',
-      data: [],
-      borderColor: '#4CAF50',
-      tension: 0.1
-    }]
-  }
-});
-
+// Conectar con MetaMask
 connectWalletButton.addEventListener('click', async () => {
-  if (typeof window.ethereum !== 'undefined') {
-    try {
-      // Crear un proveedor Web3Provider
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);  // Solicitar acceso a las cuentas
-      signer = provider.getSigner();
-      account = await signer.getAddress();
-      document.getElementById('accountAddress').innerText = account;
-      contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-      updateDashboard();  // Actualiza la interfaz después de conectar
-    } catch (error) {
-      alert('Error al conectar con MetaMask: ' + error.message);
+    if (window.ethereum) {
+        try {
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []); // Solicitar acceso a MetaMask
+            signer = provider.getSigner();
+            account = await signer.getAddress();
+            document.getElementById('accountAddress').innerText = `Conectado como: ${account}`;
+            contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+            updateDashboard(); // Actualizar la interfaz con los datos del contrato
+        } catch (error) {
+            alert('Error al conectar con MetaMask: ' + error.message);
+        }
+    } else {
+        alert('MetaMask no está instalado.');
     }
-  } else {
-    alert('Por favor, instala MetaMask o habilítalo en tu navegador.');
-  }
 });
 
+// Actualizar los datos del contrato
 const updateDashboard = async () => {
-  try {
-    const totalStaked = await contract.totalStaked();
-    const totalTreasury = await contract.totalTreasury();
-    const pendingRewards = await contract.getPendingRewards(account);
-    const nextDistribution = await contract.getTimeUntilNextDistribution(account);
-    const totalDailyDividend = await contract.getTotalDailyDividend();
-    const userShare = await contract.getUserShare(account);
-    const userDailyEstimate = await contract.getUserDailyDividendEstimate(account);
+    try {
+        const totalStaked = await contract.totalStaked();
+        const totalTreasury = await contract.totalTreasury();
+        const pendingRewards = await contract.getPendingRewards();
+        const nextDistribution = await contract.getTimeUntilNextDistribution();
 
-    document.getElementById('totalStaked').innerText = ethers.utils.formatEther(totalStaked);
-    document.getElementById('totalTreasury').innerText = ethers.utils.formatEther(totalTreasury);
-    document.getElementById('pendingRewards').innerText = ethers.utils.formatEther(pendingRewards);
-    document.getElementById('nextDistribution').innerText = `${Math.floor(nextDistribution / 60)}m ${nextDistribution % 60}s`;
-    document.getElementById('totalDailyDividend').innerText = ethers.utils.formatEther(totalDailyDividend);
-    document.getElementById('userShare').innerText = `${(userShare / 1e18 * 100).toFixed(2)}%`;
-    document.getElementById('userDailyEstimate').innerText = ethers.utils.formatEther(userDailyEstimate);
-
-    // Actualización del gráfico
-    chart.data.labels.push(new Date().toLocaleTimeString());
-    chart.data.datasets[0].data.push(parseFloat(ethers.utils.formatEther(totalStaked)));
-    if (chart.data.labels.length > 10) {
-      chart.data.labels.shift();
-      chart.data.datasets[0].data.shift();
+        document.getElementById('totalStaked').innerText = ethers.utils.formatEther(totalStaked);
+        document.getElementById('totalTreasury').innerText = ethers.utils.formatEther(totalTreasury);
+        document.getElementById('pendingRewards').innerText = ethers.utils.formatEther(pendingRewards);
+        document.getElementById('nextDistribution').innerText = `${Math.floor(nextDistribution / 60)}m ${nextDistribution % 60}s`;
+    } catch (error) {
+        alert('Error al obtener datos del contrato: ' + error.message);
     }
-    chart.update();
-  } catch (error) {
-    alert('Error al actualizar el dashboard: ' + error.message);
-  }
 };
 
+// Función para hacer staking
 stakeButton.addEventListener('click', async () => {
-  const amount = document.getElementById('stakeAmount').value;
-  try {
-    await contract.stake({ value: ethers.utils.parseEther(amount) });
-    alert('Staking completado!');
-    updateDashboard();
-  } catch (error) {
-    alert('Error en el staking: ' + error.message);
-  }
+    const amount = document.getElementById('stakeAmount').value;
+    try {
+        await contract.stake({ value: ethers.utils.parseEther(amount) });
+        alert('Staking completado!');
+        updateDashboard();
+    } catch (error) {
+        alert('Error en el staking: ' + error.message);
+    }
 });
 
+// Función para retirar el staking
 withdrawStakeButton.addEventListener('click', async () => {
-  try {
-    await contract.withdrawStake();
-    alert('Stake retirado correctamente.');
-    updateDashboard();
-  } catch (error) {
-    alert('Error al retirar el stake: ' + error.message);
-  }
+    try {
+        await contract.withdrawStake();
+        alert('Stake retirado correctamente.');
+        updateDashboard();
+    } catch (error) {
+        alert('Error al retirar el stake: ' + error.message);
+    }
 });
 
+// Función para retirar las recompensas
 withdrawRewardsButton.addEventListener('click', async () => {
-  try {
-    await contract.withdrawRewards();
-    alert('Recompensas retiradas correctamente.');
-    updateDashboard();
-  } catch (error) {
-    alert('Error al retirar recompensas: ' + error.message);
-  }
+    try {
+        await contract.withdrawRewards();
+        alert('Recompensas retiradas correctamente.');
+        updateDashboard();
+    } catch (error) {
+        alert('Error al retirar recompensas: ' + error.message);
+    }
 });
-
-setInterval(updateDashboard, 60000); // Actualización cada minuto
