@@ -1,5 +1,5 @@
 /* ==============================
-   Estilos Modernos para SmartStakingBNB
+   Estilos Modernos para SmartStakingBNB - Optimizado
    ============================== */
 
 body {
@@ -10,7 +10,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .main-container {
@@ -28,6 +29,7 @@ header {
 header h1 {
     font-size: 2rem;
     color: #00d1b2;
+    animation: fadeIn 1s ease forwards;
 }
 
 header button {
@@ -53,12 +55,14 @@ header button:hover {
     background-color: #162447;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideUp 0.5s ease forwards;
 }
 
 .card:hover {
-    transform: scale(1.03);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
 }
 
 .card h2 {
@@ -86,6 +90,8 @@ header button:hover {
     border-radius: 8px;
     border: none;
     font-size: 1rem;
+    background-color: #0f3460;
+    color: white;
 }
 
 .actions-container button {
@@ -116,14 +122,22 @@ header button:hover {
     background-color: #ffc107;
 }
 
-#stake-btn:hover {
-    background-color: #218838;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-#withdraw-stake-btn:hover {
-    background-color: #c82333;
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
-#withdraw-rewards-btn:hover {
-    background-color: #e0a800;
+/* Cuenta regresiva animada */
+#countdown {
+    font-size: 1.2rem;
+    background-color: #1f4068;
+    padding: 10px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-top: 10px;
 }
