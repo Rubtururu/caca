@@ -3,45 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStakingBNB - Plataforma de Staking</title>
+    <title>SmartStakingBNB - Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="main-container">
         <header>
-            <h1>🌐 SmartStakingBNB</h1>
-            <button id="connect-wallet">Conectar Wallet 🔗</button>
+            <h1>SmartStakingBNB Dashboard</h1>
+            <p>Gestiona tu inversión de manera inteligente y segura en la BSC.</p>
         </header>
 
-        <section class="stats-container">
+        <section class="stats-grid">
             <div class="card">
-                <h2>📊 Estadísticas Globales</h2>
-                <p id="total-staked">Total Apostado: <span>0 BNB</span></p>
-                <p id="total-treasury">Tesorería Total: <span>0 BNB</span></p>
-                <p id="total-daily-dividend">Dividendos Diarios: <span>0 BNB</span></p>
+                <h3>Estadísticas Globales</h3>
+                <p>Total Staked: <span id="total-staked">0 BNB</span></p>
+                <p>Total en Tesorería: <span id="total-treasury">0 BNB</span></p>
+                <p>Dividendos Diarios Totales: <span id="total-daily-dividend">0 BNB</span></p>
+                <p>Número de Stakers: <span id="total-stakers">0</span></p>
+                <p>Última Actualización Global: <span id="last-global-update">-</span></p>
             </div>
 
             <div class="card">
-                <h2>👤 Tus Estadísticas</h2>
-                <p id="user-share">Tu Participación: <span>0%</span></p>
-                <p id="user-daily-dividend">Dividendos Estimados: <span>0 BNB</span></p>
-                <p id="time-until-next">Próxima Distribución: <span>0s</span></p>
-                <p id="pending-rewards">Recompensas Pendientes: <span>0 BNB</span></p>
+                <h3>Tu Información</h3>
+                <p>Participación: <span id="user-share">0%</span></p>
+                <p>Staked Actual: <span id="user-staked">0 BNB</span></p>
+                <p>Dividendo Estimado Diario: <span id="user-daily-dividend">0 BNB</span></p>
+                <p>Recompensas Pendientes: <span id="pending-rewards">0 BNB</span></p>
+                <p>Tiempo para Próximo Pago: <span id="countdown">24:00:00</span></p>
+            </div>
+
+            <div class="card">
+                <h3>Acciones</h3>
+                <input type="number" id="stake-amount" placeholder="Cantidad a Stakear (BNB)" />
+                <button id="stake-btn">Hacer Stake</button>
+                <button id="withdraw-stake-btn">Retirar Stake</button>
+                <button id="withdraw-rewards-btn">Retirar Recompensas</button>
             </div>
         </section>
 
-        <section class="actions-container">
-            <div class="card">
-                <h2>⚡ Acciones de Staking</h2>
-                <input type="number" id="stake-amount" placeholder="Cantidad en BNB" />
-                <button id="stake-btn">💰 Hacer Stake</button>
-                <button id="withdraw-stake-btn">🏦 Retirar Stake</button>
-                <button id="withdraw-rewards-btn">💸 Retirar Recompensas</button>
+        <section class="countdown-container">
+            <h2>Cuenta Regresiva para Dividendos</h2>
+            <div id="countdown-timer">
+                <div><span id="hours">24</span><p>Horas</p></div>
+                <div><span id="minutes">00</span><p>Minutos</p></div>
+                <div><span id="seconds">00</span><p>Segundos</p></div>
             </div>
         </section>
+
+        <footer>
+            <p>SmartStakingBNB &copy; 2025 - Todos los derechos reservados.</p>
+        </footer>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
