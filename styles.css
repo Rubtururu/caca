@@ -1,61 +1,51 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(120deg, #1f1c2c, #928dab);
   color: #fff;
+  text-align: center;
   margin: 0;
   padding: 0;
-  text-align: center;
-  animation: fadeIn 2s ease-in;
 }
 
 .container {
-  padding: 20px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
 }
 
 h1 {
-  margin-bottom: 20px;
   font-size: 2em;
-  animation: slideDown 1s ease-out;
+  margin-bottom: 20px;
 }
 
-button {
-  padding: 12px 20px;
-  margin: 10px;
-  font-size: 1em;
-  background: #00c6ff;
+.connect-btn {
+  background: #4caf50;
   border: none;
-  border-radius: 5px;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
   color: white;
-  transition: 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-button:hover {
-  background: #0072ff;
-}
-
-input {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  margin: 10px;
-  font-size: 1em;
+.connect-btn:hover {
+  background: #3e8e41;
 }
 
 .stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: 30px;
 }
 
 .card {
   background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   padding: 20px;
-  border-radius: 10px;
-  width: 180px;
+  backdrop-filter: blur(6px);
   transition: transform 0.3s ease;
-  animation: fadeInUp 0.5s ease-in-out;
 }
 
 .card:hover {
@@ -63,20 +53,31 @@ input {
 }
 
 .actions {
-  margin-top: 20px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; } 
-  to { opacity: 1; }
+.actions input,
+.actions button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
 }
 
-@keyframes slideDown {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.actions input {
+  text-align: center;
 }
 
-@keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.actions button {
+  background-color: #ff9800;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.actions button:hover {
+  background-color: #e68a00;
 }
