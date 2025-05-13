@@ -1,143 +1,52 @@
-/* ==============================
-   Estilos Modernos para SmartStakingBNB - Optimizado
-   ============================== */
-
+/* styles.css */
 body {
-    margin: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: #1a1a2e;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 .main-container {
-    width: 90%;
-    max-width: 1200px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
     margin-bottom: 20px;
 }
 
-header h1 {
-    font-size: 2rem;
-    color: #00d1b2;
-    animation: fadeIn 1s ease forwards;
-}
-
-header button {
-    background-color: #00d1b2;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-header button:hover {
-    background-color: #00b89b;
-}
-
-.stats-container {
+.stats-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 }
 
 .card {
-    background-color: #162447;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: slideUp 0.5s ease forwards;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.02);
 }
 
-.card h2 {
-    color: #00d1b2;
-    margin-bottom: 10px;
-}
-
-.card p {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
-.card span {
-    font-weight: bold;
-}
-
-.actions-container {
-    margin-top: 20px;
-}
-
-.actions-container input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-    background-color: #0f3460;
+button {
+    background-color: #4CAF50;
     color: white;
-}
-
-.actions-container button {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background-color: #1f4068;
     border: none;
-    color: white;
-    font-size: 1rem;
-    transition: background 0.3s ease;
-}
-
-.actions-container button:hover {
-    background-color: #1b355c;
-}
-
-#stake-btn {
-    background-color: #28a745;
-}
-
-#withdraw-stake-btn {
-    background-color: #dc3545;
-}
-
-#withdraw-rewards-btn {
-    background-color: #ffc107;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* Cuenta regresiva animada */
-#countdown {
-    font-size: 1.2rem;
-    background-color: #1f4068;
     padding: 10px;
-    border-radius: 8px;
-    display: inline-block;
     margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
 }
