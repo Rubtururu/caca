@@ -4,29 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smart Staking BNB</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>🚀 Smart Staking BNB</h1>
-
-    <button id="connectWallet" class="connect-btn">🔗 Connect Wallet</button>
+    <h1>Smart Staking BNB</h1>
+    <button id="connectWallet">Connect Wallet</button>
     <p id="walletAddress"></p>
 
-    <div class="stats">
-      <div class="card"><h3>Total Staked</h3><p id="totalStaked">-</p></div>
-      <div class="card"><h3>Total Treasury</h3><p id="totalTreasury">-</p></div>
-      <div class="card"><h3>Pending Rewards</h3><p id="pendingRewards">-</p></div>
-      <div class="card"><h3>Daily Dividend</h3><p id="dailyDividend">-</p></div>
-      <div class="card"><h3>Next Payout</h3><p id="nextPayout">-</p></div>
+    <div id="stats" class="stats">
+      <div class="card"><strong>Total Staked:</strong> <span id="totalStaked">-</span></div>
+      <div class="card"><strong>Total Treasury:</strong> <span id="totalTreasury">-</span></div>
+      <div class="card"><strong>Pending Rewards:</strong> <span id="pendingRewards">-</span></div>
+      <div class="card"><strong>Daily Estimate:</strong> <span id="dailyEstimate">-</span></div>
+      <div class="card"><strong>Next Payout:</strong> <span id="nextPayout">-</span></div>
     </div>
 
     <div class="actions">
-      <input type="number" id="stakeAmount" placeholder="BNB amount">
-      <button onclick="stake()">✅ Stake</button>
-      <button onclick="withdrawStake()">💸 Withdraw Stake</button>
-      <button onclick="withdrawRewards()">🎁 Claim Rewards</button>
+      <input type="number" id="stakeAmount" placeholder="Amount in BNB"/>
+      <button id="stakeButton">Stake</button>
+      <button id="withdrawStakeButton">Withdraw Stake</button>
+      <button id="withdrawRewardsButton">Withdraw Rewards</button>
     </div>
   </div>
 
