@@ -1,69 +1,46 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Staking BNB</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Staking BNB</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Smart Staking BNB</h1>
-            <button id="connect-wallet-btn">Conectar MetaMask</button>
-        </header>
+  <div class="container">
+    <h1>Smart Staking BNB</h1>
 
-        <section class="stats">
-            <div class="stat-box">
-                <p id="total-staked">Total Staked: 0 BNB</p>
-            </div>
-            <div class="stat-box">
-                <p id="total-treasury">Total Treasury: 0 BNB</p>
-            </div>
-            <div class="stat-box">
-                <p id="total-daily-dividend">Total Daily Dividend: 0 BNB</p>
-            </div>
-        </section>
-
-        <section class="user-stats">
-            <h2>Estadísticas del Usuario</h2>
-            <div class="stat-box">
-                <p id="user-staked">Stake del Usuario: 0 BNB</p>
-            </div>
-            <div class="stat-box">
-                <p id="user-share">Share del Usuario: 0%</p>
-            </div>
-            <div class="stat-box">
-                <p id="user-daily-dividend">Daily Dividend Estimado: 0 BNB</p>
-            </div>
-            <div class="stat-box">
-                <p id="pending-rewards">Pending Rewards: 0 BNB</p>
-            </div>
-        </section>
-
-        <section class="actions">
-            <h2>Acciones</h2>
-            <div class="input-group">
-                <input type="number" id="stake-amount" placeholder="Cantidad de BNB a Stakear" min="0.01" step="0.01">
-                <button id="stake-btn">Stake</button>
-            </div>
-            <button id="withdraw-stake-btn">Retirar Stake</button>
-            <button id="withdraw-rewards-btn">Retirar Recompensas</button>
-        </section>
-
-        <section class="countdown">
-            <h2>Cuenta Atrás para el Próximo Pago</h2>
-            <div id="countdown-timer">
-                <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
-            </div>
-        </section>
+    <div class="card">
+      <button id="connectButton">Connect Wallet</button>
+      <p><strong>Connected Wallet:</strong> <span id="walletAddress">Not connected</span></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
-    <script src="script.js"></script>
+    <div class="card">
+      <h2>Global Statistics</h2>
+      <p>Total Staked: <span id="totalStaked">Loading...</span> BNB</p>
+      <p>Total Treasury: <span id="totalTreasury">Loading...</span> BNB</p>
+      <p>Dividend Pool (Daily 3%): <span id="totalDailyDividend">Loading...</span> BNB</p>
+      <p>Active Stakers: <span id="stakerCount">Loading...</span></p>
+    </div>
+
+    <div class="card">
+      <h2>Your Stats</h2>
+      <p>Your Stake: <span id="userStaked">Loading...</span> BNB</p>
+      <p>Your Share: <span id="userShare">Loading...</span> %</p>
+      <p>Pending Rewards: <span id="pendingRewards">Loading...</span> BNB</p>
+      <p>Daily Dividend Estimate: <span id="dailyEstimate">Loading...</span> BNB</p>
+      <p>Next Distribution In: <span id="nextDistribution">Loading...</span></p>
+
+      <div class="actions">
+        <input type="number" id="stakeAmount" placeholder="Amount in BNB" />
+        <button onclick="stake()">Stake</button>
+        <button onclick="withdraw()">Withdraw Stake</button>
+        <button onclick="claim()">Claim Rewards</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
