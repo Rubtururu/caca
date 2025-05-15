@@ -76,3 +76,61 @@ async function claim() {
   await contract.methods.withdrawRewards().send({ from: currentAccount });
   loadStats();
 }
+
+// Aquí ya deberías tener Web3, contrato y funciones definidos
+// Agrega esto al final de `updateUI()` para actualizar la gráfica
+
+let chartInstance;
+
+async function updateChart() {
+  const value = await contract.methods.getTotalDailyDividend().call();
+  const bnb = parseFloat(web3.utils.fromWei(value, 'ether'));
+
+  const now = new Date();
+  const label = now.toLocaleTimeString();
+
+  if (!chartInstance) {
+    const ctx = document.getElementById("dividendChart").getContext("2d");
+    chartInstance = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [label],
+        datasets: [{
+          label: "BNB en Pool de Dividendos",
+          data: [bnb],
+          backgroundColor: "rgba(0, 255, 195, 0.2)",
+          borderColor: "#00ffc3",
+          borderWidth: 2,
+          tension: 0.3,
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: getComputedStyle(document.body).getPropertyValue("--foreground")
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: getComputedStyle(document.body).getPropertyValue("--foreground") } },
+          y: { ticks: { color: getComputedStyle(document.body).getPropertyValue("--foreground") } }
+        }
+      }
+    });
+  } else {
+    chartInstance.data.labels.push(label);
+    chartInstance.data.datasets[0].data.push(bnb);
+    if (chartInstance.data.labels.length > 10) {
+      chartInstance.data.labels.shift();
+      chartInstance.data.datasets[0].data.shift();
+    }
+    chartInstance.update();
+  }
+}
+
+// Llama a esto al final de updateUI()
+setInterval(updateChart, 60000); // cada minuto
+updateChart();
