@@ -1,9 +1,22 @@
-const contractAddress = "0x5f42DC4DBf6Ad557966CCd8a61f658B8e6b16CF5"; // Testnet
-const abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getPendingRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getTimeUntilNextDistribution","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getTotalDailyDividend","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserDailyDividendEstimate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserShare","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"hasStaked","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastGlobalUpdate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"stake","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"stakers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalTreasury","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"stakedAmount","type":"uint256"},{"internalType":"uint256","name":"rewardDebt","type":"uint256"},{"internalType":"uint256","name":"pendingRewards","type":"uint256"},{"internalType":"uint256","name":"lastUpdate","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawStake","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+const contractAddress = "0x5f42DC4DBf6Ad557966CCd8a61f658B8e6b16CF5"; // Dirección en testnet
+const abi = [ // ABI mínima necesaria
+  { "inputs": [], "name": "totalStaked", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "totalTreasury", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "getTotalDailyDividend", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [{ "internalType": "address", "name": "userAddr", "type": "address" }], "name": "getUserShare", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [{ "internalType": "address", "name": "userAddr", "type": "address" }], "name": "getUserDailyDividendEstimate", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [{ "internalType": "address", "name": "userAddr", "type": "address" }], "name": "getPendingRewards", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [{ "internalType": "address", "name": "userAddr", "type": "address" }], "name": "getTimeUntilNextDistribution", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "stake", "stateMutability": "payable", "type": "function" },
+  { "inputs": [], "name": "withdrawStake", "stateMutability": "nonpayable", "type": "function" },
+  { "inputs": [], "name": "withdrawRewards", "stateMutability": "nonpayable", "type": "function" },
+  { "inputs": [], "name": "stakers", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" },
+];
 
 let web3;
+let account;
 let contract;
-let currentAccount;
+let chartInstance;
 
 window.addEventListener("load", async () => {
   if (window.ethereum) {
@@ -11,80 +24,109 @@ window.addEventListener("load", async () => {
     contract = new web3.eth.Contract(abi, contractAddress);
     document.getElementById("connectButton").addEventListener("click", connectWallet);
   } else {
-    alert("MetaMask not detected.");
+    alert("MetaMask no está instalado.");
   }
 });
 
 async function connectWallet() {
-  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-  currentAccount = accounts[0];
-  document.getElementById("walletAddress").innerText = currentAccount;
-  loadStats();
+  try {
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    account = accounts[0];
+    document.getElementById("connectButton").innerText = `✅ ${account.slice(0, 6)}...${account.slice(-4)}`;
+    updateUI();
+    updateChart();
+    setInterval(updateUI, 30000);
+    setInterval(updateChart, 60000);
+  } catch (error) {
+    console.error("Error al conectar:", error);
+  }
 }
 
-async function loadStats() {
-  const [totalStaked, totalTreasury, dailyDividend, userShare, pendingRewards, dailyEstimate, timeLeft] = await Promise.all([
+async function updateUI() {
+  if (!contract || !account) return;
+
+  const [
+    totalStaked,
+    totalTreasury,
+    totalDailyDividend,
+    userShare,
+    userDailyDividend,
+    userPendingRewards,
+    countdown
+  ] = await Promise.all([
     contract.methods.totalStaked().call(),
     contract.methods.totalTreasury().call(),
     contract.methods.getTotalDailyDividend().call(),
-    contract.methods.getUserShare(currentAccount).call(),
-    contract.methods.getPendingRewards(currentAccount).call(),
-    contract.methods.getUserDailyDividendEstimate(currentAccount).call(),
-    contract.methods.getTimeUntilNextDistribution(currentAccount).call()
+    contract.methods.getUserShare(account).call(),
+    contract.methods.getUserDailyDividendEstimate(account).call(),
+    contract.methods.getPendingRewards(account).call(),
+    contract.methods.getTimeUntilNextDistribution(account).call()
   ]);
 
-  document.getElementById("totalStaked").innerText = web3.utils.fromWei(totalStaked);
-  document.getElementById("totalTreasury").innerText = web3.utils.fromWei(totalTreasury);
-  document.getElementById("totalDailyDividend").innerText = web3.utils.fromWei(dailyDividend);
-  document.getElementById("userShare").innerText = (userShare / 1e16).toFixed(2); // 100% = 1e18
-  document.getElementById("pendingRewards").innerText = web3.utils.fromWei(pendingRewards);
-  document.getElementById("dailyEstimate").innerText = web3.utils.fromWei(dailyEstimate);
-  document.getElementById("nextDistribution").innerText = formatTime(timeLeft);
+  const users = await getTotalUsers();
 
-  const user = await contract.methods.users(currentAccount).call();
-  document.getElementById("userStaked").innerText = web3.utils.fromWei(user.stakedAmount);
+  document.getElementById("totalStaked").innerText = formatBNB(totalStaked);
+  document.getElementById("totalTreasury").innerText = formatBNB(totalTreasury);
+  document.getElementById("totalDailyDividend").innerText = formatBNB(totalDailyDividend);
+  document.getElementById("totalUsers").innerText = users;
 
-  const stakerCount = await contract.methods.stakers().call();
-  document.getElementById("stakerCount").innerText = stakerCount.length;
+  document.getElementById("userShare").innerText = `${(userShare / 1e16).toFixed(2)}%`;
+  document.getElementById("userDailyDividend").innerText = formatBNB(userDailyDividend);
+  document.getElementById("userPendingRewards").innerText = formatBNB(userPendingRewards);
+  document.getElementById("userCountdown").innerText = formatCountdown(countdown);
 }
 
-function formatTime(seconds) {
+function formatBNB(wei) {
+  return `${web3.utils.fromWei(wei, "ether")} BNB`;
+}
+
+function formatCountdown(seconds) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
   return `${h}h ${m}m ${s}s`;
 }
 
+async function getTotalUsers() {
+  const length = await contract.methods.stakers().call().catch(() => []); // fallback
+  if (Array.isArray(length)) return length.length;
+  return 0;
+}
+
 async function stake() {
   const amount = document.getElementById("stakeAmount").value;
-  if (!amount || isNaN(amount)) return alert("Enter a valid amount");
+  if (!amount || isNaN(amount)) return alert("Ingresa una cantidad válida");
 
-  await contract.methods.stake().send({
-    from: currentAccount,
-    value: web3.utils.toWei(amount, "ether")
-  });
-
-  loadStats();
+  const value = web3.utils.toWei(amount, "ether");
+  try {
+    await contract.methods.stake().send({ from: account, value });
+    updateUI();
+  } catch (err) {
+    console.error("Error en stake:", err);
+  }
 }
 
-async function withdraw() {
-  await contract.methods.withdrawStake().send({ from: currentAccount });
-  loadStats();
+async function withdrawStake() {
+  try {
+    await contract.methods.withdrawStake().send({ from: account });
+    updateUI();
+  } catch (err) {
+    console.error("Error al retirar:", err);
+  }
 }
 
-async function claim() {
-  await contract.methods.withdrawRewards().send({ from: currentAccount });
-  loadStats();
+async function withdrawRewards() {
+  try {
+    await contract.methods.withdrawRewards().send({ from: account });
+    updateUI();
+  } catch (err) {
+    console.error("Error al reclamar recompensas:", err);
+  }
 }
-
-// Aquí ya deberías tener Web3, contrato y funciones definidos
-// Agrega esto al final de `updateUI()` para actualizar la gráfica
-
-let chartInstance;
 
 async function updateChart() {
   const value = await contract.methods.getTotalDailyDividend().call();
-  const bnb = parseFloat(web3.utils.fromWei(value, 'ether'));
+  const bnb = parseFloat(web3.utils.fromWei(value, "ether"));
 
   const now = new Date();
   const label = now.toLocaleTimeString();
@@ -130,7 +172,3 @@ async function updateChart() {
     chartInstance.update();
   }
 }
-
-// Llama a esto al final de updateUI()
-setInterval(updateChart, 60000); // cada minuto
-updateChart();
